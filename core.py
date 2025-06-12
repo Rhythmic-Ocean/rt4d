@@ -1,7 +1,12 @@
 import requests
+import sqlite3
+from dotenv import load_dotenv
+import os
 
-CLIENT_ID = ''
-CLIENT_SECRET = ''
+load_dotenv
+
+CLIENT_ID = os.getenv("AUTH_ID")
+CLIENT_SECRET = os.getenv("AUTH_TOKEN")
 
 def get_access_token():
     url = 'https://osu.ppy.sh/oauth/token'
