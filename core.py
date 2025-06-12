@@ -1,7 +1,7 @@
 import requests
 
-CLIENT_ID = '41539'
-CLIENT_SECRET = 'OvxNqt8Y8b4ncyxWSg4qeL2zjqew6nOlkcJFwkPV'
+CLIENT_ID = ''
+CLIENT_SECRET = ''
 
 def get_access_token():
     url = 'https://osu.ppy.sh/oauth/token'
