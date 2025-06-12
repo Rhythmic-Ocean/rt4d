@@ -3,7 +3,7 @@ import sqlite3
 from dotenv import load_dotenv
 import os
 
-load_dotenv
+load_dotenv(dotenv_path="sec.env")
 
 CLIENT_ID = os.getenv("AUTH_ID")
 CLIENT_SECRET = os.getenv("AUTH_TOKEN")
