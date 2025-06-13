@@ -1,0 +1,5 @@
+.env
+sec.env
+*.env
+credentials.json
+*.json
