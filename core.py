@@ -2,6 +2,18 @@ import requests
 import sqlite3
 from dotenv import load_dotenv
 import os
+import gspread
+from google.oauth2.service_account import Credentials
+
+scopes = [
+    "https://www.googleapis.com/auth/spreadsheets"
+]
+creds = Credentials.from_service_account_file("credentials.json", scopes = scopes)
+client = gspread.authorize(creds)
+sheet_id = "1ltgGn8a-dXVsAbgbjwgQEKn83ow2houytfT79g5qUX4"
+sheet = client.open_by_key(sheet_id)
+
+values_list = sheet.sheet1.row_values(1)
 
 load_dotenv(dotenv_path="sec.env")
 
@@ -36,99 +48,22 @@ def get_user_pp(username, token):
     if response.ok:
         data = response.json()
         pp = data['statistics']['pp']
-        print(f"{username}'s current PP: {pp}")
+        return pp
     else:
         print("Failed to get user data. Response:", response.text)
+        return
 
-def main():
+
+def get_pp(user):
     token = get_access_token()
-    num = int(input("Add new user? (type 1) OR Get latest pp for all existing users (type 2): "))
-
-    master = ["OnlyHadley", "EthantrixV3"]
-    ranker = ["zNublao"]
-    elite = ["rockhard", "Floofies", "bowiepro"]
-    diamond = ["Wutever", "DZHEYLO", "nunk7", "zacfr", "InkLyned", "Am1x"]
-    platinum = ["Saiba","plus","oppanboy","Arirret","Yumirai","Demideum","FinBois","zeppelinn","LevelOzone","durante","[Kanna]"]
-    gold = ["rzye", "EonDuoLatios", "6 digit forever", "Daribush", "Egorixxz", "spinneracc", "thatanimeguy0", "ShoeSpoon", "Elo4373", "glowstickles", "golem", "Stagz", "wetratz0", "Death9208"]
-    silver = ["Rika Voort", "shira1", "castor", "xXKero", "Strivial", "SqueakSqueak", "Rhythmic_Ocean", "KanekiKenLol", "alonsz", "SupNeit", "Kqma", "jefferson bobbe", "Amamiya Mitoro", "Xapped"]
-    bronze = ["Slowpoke1360", "Solar_Taichi", "NotPole"]
-
-    if num == 1:
-        running = True
-        while running:
-            num1 = int(input("rank?: master(1), ranker(2), elite(3), diamond(4), platinum(5), gold(6), silver(7), bronze(8). Please type the corresponding number:"))
-            new_name = input("Enter the name: ")
-            if num1 == 1:
-                master.append(new_name)
-
-            elif num1 == 2:
-                ranker.append(new_name)
-
-            elif num1 == 3:
-                elite.append(new_name)
-        
-            elif num1 == 4:
-                diamond.append(new_name)
-
-            elif num1 == 5:
-                platinum.append(new_name)
-
-            elif num1 == 6:
-                gold.append(new_name)
-
-
-            elif num1 == 7:
-                silver.append(new_name)
-
-        
-            elif num1 == 8:
-                bronze.append(new_name)
-            
-
-            num2 = int(input("Do you want to continue? 1-> yes, 2-> no"))
-            if num2 == 2:
-                running = False
-        
     if token:
-        print("Master\n")
-        for user in master:
-            get_user_pp(user, token)
-        print("\n\n")
-
-        print("Ranker\n")
-        for user in ranker:
-            get_user_pp(user, token)
-        print("\n\n")
-
-        print("Elite\n")
-        for user in elite:
-            get_user_pp(user, token)
-        print("\n\n")
-
-        print("Diamond\n")
-        for user in diamond:
-            get_user_pp(user, token)
-        print("\n\n")
-
-        print("Platinum\n")
-        for user in platinum:
-            get_user_pp(user, token)
-        print("\n\n")
-
-        print("Gold\n")
-        for user in gold:
-            get_user_pp(user, token)
-        print("\n\n")
-
-        print("Silver\n")
-        for user in silver:
-            get_user_pp(user, token)
-        print("\n\n")
-
-        print("Bronze\n")
-        for user in bronze:
-            get_user_pp(user, token)
- 
+            pp = get_user_pp(user, token)
+            if pp:
+                return pp
+            else:
+                return
+    else:
+        return
         
          
 
