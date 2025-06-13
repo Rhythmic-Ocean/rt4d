@@ -37,6 +37,21 @@ def add_new_user():
         if num2 == 2:
             running = False
 
+def log_og_pp():
+    print("\nTHIS WILL TAKE A WHILE, PLEASE DO NOT TERMINATE THE PROCESS!\n")
+    for i in range(8):
+        sheet = workbook.get_worksheet(i)
+        print(f"\n Working on {sheet.title} sheet.\n")
+        col_a_values = sheet.col_values(1)
+        for j in range(3, len(col_a_values) + 1):
+            player = col_a_values[j-1]
+            og_pp = get_pp(player)
+            if og_pp:
+                sheet.update(f"G{j}", [[og_pp]])
+                print(f"{player}'s og pp succssfully updated\n")
+            else:
+                print(f"error for {player}\n")
+
 
 def main():
     running = True
@@ -54,6 +69,8 @@ def main():
             add_new_user()
         elif choice == 4:
             break
+        elif choice == 2:
+            log_og_pp()
         else:
             continue
 
